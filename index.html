@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vishnu Vaidyanathan — AI Researcher</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@300;400;500&family=Crimson+Pro:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0f0e0d;
+    --paper: #f5f0e8;
+    --accent: #c84b2f;
+    --accent2: #2563a8;
+    --muted: #6b6560;
+    --border: #d4cfc7;
+    --card: #eeead F;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* GRAIN OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.4;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 1.2rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(245, 240, 232, 0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+    z-index: 100;
+  }
+
+  .nav-logo {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--ink); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-left {
+    padding: 6rem 3rem 4rem 5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .hero-tag::before {
+    content: '';
+    width: 2rem;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 5vw, 5.5rem);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.3rem;
+  }
+
+  .name-italic {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-subtitle {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    margin: 1.5rem 0 2.5rem;
+    line-height: 1.8;
+  }
+
+  .hero-desc {
+    font-size: 1.1rem;
+    color: var(--muted);
+    max-width: 480px;
+    line-height: 1.8;
+    font-weight: 300;
+  }
+
+  .hero-desc strong {
+    color: var(--ink);
+    font-weight: 400;
+  }
+
+  .hero-cta {
+    margin-top: 3rem;
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.9rem 2rem;
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+
+  .btn-primary:hover { background: var(--accent); }
+
+  .btn-secondary {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.9rem 2rem;
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    text-decoration: none;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .btn-secondary:hover { border-color: var(--ink); }
+
+  .hero-right {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 3rem;
+  }
+
+  .hero-visual {
+    position: relative;
+    width: 100%;
+    max-width: 420px;
+  }
+
+  .visual-card {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 2.5rem;
+    position: relative;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    line-height: 2;
+    letter-spacing: 0.05em;
+  }
+
+  .visual-card::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: -8px;
+    right: 8px;
+    bottom: 8px;
+    border: 1px solid var(--accent);
+    z-index: -1;
+  }
+
+  .code-comment { color: #6b6560; }
+  .code-key { color: #c84b2f; }
+  .code-val { color: #9fb8d8; }
+  .code-str { color: #98c09a; }
+
+  .stats-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+
+  .stat-box {
+    border: 1px solid var(--border);
+    padding: 1.2rem;
+    text-align: center;
+    background: rgba(245,240,232,0.5);
+  }
+
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--accent);
+    display: block;
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 0.4rem;
+    display: block;
+  }
+
+  /* SECTION BASE */
+  section {
+    padding: 6rem 5rem;
+    position: relative;
+  }
+
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+    max-width: 60px;
+  }
+
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 3.5vw, 3.2rem);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin-bottom: 3rem;
+  }
+
+  /* RESEARCH */
+  .research-section {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .research-section .section-label { color: var(--accent); }
+  .research-section h2 { color: var(--paper); }
+
+  .research-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5px;
+    background: #2a2520;
+  }
+
+  .research-card {
+    background: #1a1714;
+    padding: 2.5rem;
+    transition: background 0.2s;
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+    color: inherit;
+  }
+
+  .research-card:hover { background: #221f1b; }
+
+  .research-card-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+
+  .research-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    line-height: 1.3;
+    color: var(--paper);
+  }
+
+  .research-card p {
+    font-size: 0.9rem;
+    color: #9a9590;
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  .research-card-footer {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: #5a5550;
+    letter-spacing: 0.08em;
+  }
+
+  .research-arrow {
+    font-size: 1rem;
+    color: var(--accent);
+    transition: transform 0.2s;
+  }
+
+  .research-card:hover .research-arrow { transform: translateX(4px); }
+
+  /* PROJECTS */
+  .projects-section { background: var(--paper); }
+
+  .project-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .project-item {
+    display: grid;
+    grid-template-columns: 80px 1fr auto;
+    gap: 2rem;
+    align-items: start;
+    padding: 2.5rem 0;
+    border-bottom: 1px solid var(--border);
+    text-decoration: none;
+    color: inherit;
+    transition: padding-left 0.3s;
+  }
+
+  .project-item:hover { padding-left: 1rem; }
+
+  .project-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    color: var(--border);
+    font-weight: 700;
+    line-height: 1;
+    padding-top: 0.2rem;
+  }
+
+  .project-info h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+  }
+
+  .project-info p {
+    font-size: 0.95rem;
+    color: var(--muted);
+    max-width: 520px;
+  }
+
+  .project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 1rem;
+  }
+
+  .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.7rem;
+    border: 1px solid var(--border);
+    color: var(--muted);
+  }
+
+  .project-link {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    text-transform: uppercase;
+    white-space: nowrap;
+    padding-top: 0.5rem;
+  }
+
+  /* ABOUT */
+  .about-section {
+    background: #f0ebe0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+  }
+
+  .about-text p {
+    font-size: 1.05rem;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+    line-height: 1.9;
+    font-weight: 300;
+  }
+
+  .about-text p strong { color: var(--ink); font-weight: 400; }
+
+  .about-aside {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .aside-block {
+    padding: 1.5rem;
+    border-left: 2px solid var(--accent);
+    background: rgba(245,240,232,0.6);
+  }
+
+  .aside-block-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+
+  .aside-block p {
+    font-size: 0.95rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* BENCHMARK */
+  .benchmark-section {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .benchmark-section h2 { color: var(--paper); }
+
+  .benchmark-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1px;
+    background: #2a2520;
+    margin-bottom: 3rem;
+  }
+
+  .bench-cell {
+    background: #1a1714;
+    padding: 2rem 1.5rem;
+    text-align: center;
+  }
+
+  .bench-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #6b6560;
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .bench-baseline {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: #6b6560;
+    margin-bottom: 0.3rem;
+  }
+
+  .bench-rcc {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--paper);
+  }
+
+  .bench-delta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    margin-top: 0.5rem;
+  }
+
+  .bench-win {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.1em;
+    color: #98c09a;
+    margin-top: 0.3rem;
+  }
+
+  /* CONTACT */
+  .contact-section {
+    text-align: center;
+    padding: 8rem 5rem;
+    background: var(--paper);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .contact-section::before {
+    content: 'EDGI';
+    position: absolute;
+    font-family: 'Playfair Display', serif;
+    font-size: 25vw;
+    font-weight: 700;
+    color: rgba(200,75,47,0.04);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    letter-spacing: -0.05em;
+  }
+
+  .contact-section h2 {
+    font-size: clamp(2.5rem, 5vw, 5rem);
+    margin-bottom: 1.5rem;
+  }
+
+  .contact-section p {
+    font-size: 1.1rem;
+    color: var(--muted);
+    max-width: 500px;
+    margin: 0 auto 3rem;
+  }
+
+  .contact-links {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .contact-link {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    padding: 0.8rem 1.5rem;
+    border: 1px solid var(--border);
+    transition: all 0.2s;
+  }
+
+  .contact-link:hover {
+    border-color: var(--ink);
+    color: var(--ink);
+  }
+
+  /* FOOTER */
+  footer {
+    padding: 2rem 5rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-left > * {
+    animation: fadeUp 0.8s ease forwards;
+    opacity: 0;
+  }
+
+  .hero-left > *:nth-child(1) { animation-delay: 0.1s; }
+  .hero-left > *:nth-child(2) { animation-delay: 0.2s; }
+  .hero-left > *:nth-child(3) { animation-delay: 0.3s; }
+  .hero-left > *:nth-child(4) { animation-delay: 0.4s; }
+  .hero-left > *:nth-child(5) { animation-delay: 0.5s; }
+  .hero-left > *:nth-child(6) { animation-delay: 0.6s; }
+
+  .hero-right {
+    animation: fadeUp 1s 0.4s ease forwards;
+    opacity: 0;
+  }
+
+  /* DECORATIVE LINE */
+  .deco-line {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, var(--border), transparent);
+  }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-right { display: none; }
+    .about-section { grid-template-columns: 1fr; }
+    .benchmark-grid { grid-template-columns: repeat(2, 1fr); }
+    section { padding: 4rem 2rem; }
+    nav { padding: 1rem 1.5rem; }
+    .hero-left { padding: 5rem 2rem 3rem; }
+    footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="#">EDGI.IN</a>
+  <ul class="nav-links">
+    <li><a href="#research">Research</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#benchmark">Benchmark</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-tag">Independent AI Researcher · Srirangam, India</div>
+    <h1>Vishnu<br><span class="name-italic">Vaidyanathan</span></h1>
+    <div class="hero-subtitle">
+      RCC · EDGI · BB5 · Infinity Buckets<br>
+      Provisional Patent · SSRN · Kaggle
+    </div>
+    <p class="hero-desc">
+      Building frameworks for <strong>AI cognition, governance, and stability</strong>
+      from first principles. Independent research at the intersection of
+      computation theory, multi-agent systems, and affective architecture.
+    </p>
+    <div class="hero-cta">
+      <a href="#research" class="btn-primary">View Research</a>
+      <a href="#contact" class="btn-secondary">Get in Touch</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-visual">
+      <div class="visual-card">
+        <span class="code-comment"># RCC A/B Test Results</span><br>
+        <span class="code-key">model</span>: <span class="code-str">"claude-sonnet-4-6"</span><br>
+        <span class="code-key">tasks</span>: <span class="code-val">500</span><br>
+        <span class="code-key">models_tested</span>: <span class="code-val">14</span><br>
+        <br>
+        <span class="code-comment"># Performance Delta</span><br>
+        <span class="code-key">baseline</span>: <span class="code-val">0.826</span><br>
+        <span class="code-key">rcc_mithra</span>: <span class="code-val">0.921</span><br>
+        <span class="code-key">delta</span>: <span class="code-str">+0.095 ✓</span><br>
+        <br>
+        <span class="code-comment"># p-value</span><br>
+        <span class="code-key">significance</span>: <span class="code-str">p=0.0468</span>
+      </div>
+      <div class="stats-row">
+        <div class="stat-box">
+          <span class="stat-num">500</span>
+          <span class="stat-label">Benchmark Tasks</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num">14</span>
+          <span class="stat-label">Models Tested</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num">+7</span>
+          <span class="stat-label">RCC Constant</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num">18</span>
+          <span class="stat-label">RCC Layers</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESEARCH -->
+<section class="research-section" id="research">
+  <div class="section-label">Research</div>
+  <h2>Frameworks &<br><em>Theories</em></h2>
+  <div class="research-grid">
+
+    <a href="https://ssrn.com" class="research-card" target="_blank">
+      <div class="research-card-tag">Architecture · 2024–2025</div>
+      <h3>Reflex Core Continuum</h3>
+      <p>An 18-layer cognitive architecture for continuity and stability of affective layers in AI. Echo, Ripple, Virtue, Conscience Stack, Still Layer — architecture that runs silently underneath.</p>
+      <div class="research-card-footer">
+        <span>SSRN · Kaggle Benchmark</span>
+        <span class="research-arrow">→</span>
+      </div>
+    </a>
+
+    <a href="https://ssrn.com" class="research-card" target="_blank">
+      <div class="research-card-tag">Governance · Provisional Patent Nov 2025</div>
+      <h3>EDGI + MAAC</h3>
+      <p>Emergent Decision Governance Intelligence with Multi-Agent Adaptive Consensus. PDI, CEI, NCI metrics for measuring alignment and governance in multi-agent AI systems.</p>
+      <div class="research-card-footer">
+        <span>SSRN · Patent Filed · India</span>
+        <span class="research-arrow">→</span>
+      </div>
+    </a>
+
+    <a href="https://github.com/VishnuVaidyanathan" class="research-card" target="_blank">
+      <div class="research-card-tag">Computation Theory · 2024</div>
+      <h3>BB5 Oscillator Decomposition</h3>
+      <p>Compressing 47 million steps of the Busy Beaver 5 champion machine into approximately 15 recurrence layers. Oscillator-ladder decomposition with a halting residue theorem.</p>
+      <div class="research-card-footer">
+        <span>GitHub · bbchallenge.org</span>
+        <span class="research-arrow">→</span>
+      </div>
+    </a>
+
+    <a href="https://ssrn.com" class="research-card" target="_blank">
+      <div class="research-card-tag">Philosophy of Mathematics · 2025</div>
+      <h3>Infinity Buckets</h3>
+      <p>A cognitive taxonomy of infinity. Distinguishing non-finite from mathematically infinite. Substrate-level understanding of how we reason about boundlessness across mathematics and computation.</p>
+      <div class="research-card-footer">
+        <span>SSRN · 15+ Downloads</span>
+        <span class="research-arrow">→</span>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section class="projects-section" id="projects">
+  <div class="section-label">Projects</div>
+  <h2>Built &<br><em>Deployed</em></h2>
+  <div class="project-list">
+
+    <a href="https://github.com/VishnuVaidyanathan/reflex-core-continuum" class="project-item" target="_blank">
+      <div class="project-num">01</div>
+      <div class="project-info">
+        <h3>Mithra — RCC Agent</h3>
+        <p>16-module, ~2,800-line Python architecture deployed on Railway. Stability infrastructure, not a character product. Full RCC implementation with Echo, Ripple, Virtue layers.</p>
+        <div class="project-tags">
+          <span class="tag">Python</span>
+          <span class="tag">Railway</span>
+          <span class="tag">RCC</span>
+          <span class="tag">16 Modules</span>
+        </div>
+      </div>
+      <div class="project-link">GitHub →</div>
+    </a>
+
+    <a href="https://www.kaggle.com" class="project-item" target="_blank">
+      <div class="project-num">02</div>
+      <div class="project-info">
+        <h3>RCC Kaggle Benchmark</h3>
+        <p>500-task benchmark testing RCC metacognitive advantage across 14 leading AI models. Statistically significant result at p=0.0468. Epistemic humility, reasoning consistency, strategic withdrawal.</p>
+        <div class="project-tags">
+          <span class="tag">Kaggle</span>
+          <span class="tag">500 Tasks</span>
+          <span class="tag">14 Models</span>
+          <span class="tag">kbench</span>
+        </div>
+      </div>
+      <div class="project-link">Kaggle →</div>
+    </a>
+
+    <a href="https://ssvk-menu-builder.vercel.app" class="project-item" target="_blank">
+      <div class="project-num">03</div>
+      <div class="project-info">
+        <h3>SSVK Menu Builder</h3>
+        <p>Tamil-language menu customization tool for a 40-year family catering business. React + Vite with per-meal guest counts, Bakshanam tab, HTML-to-PDF export.</p>
+        <div class="project-tags">
+          <span class="tag">React</span>
+          <span class="tag">Vite</span>
+          <span class="tag">Tamil</span>
+          <span class="tag">Vercel</span>
+        </div>
+      </div>
+      <div class="project-link">Live →</div>
+    </a>
+
+    <a href="https://github.com/VishnuVaidyanathan" class="project-item" target="_blank">
+      <div class="project-num">04</div>
+      <div class="project-info">
+        <h3>CryptoWeather Signal Bot</h3>
+        <p>Automated Telegram signal bot running every 4 hours. EDGI-style multi-agent voting on crypto market conditions. Real-world deployment of governance framework principles.</p>
+        <div class="project-tags">
+          <span class="tag">Telegram</span>
+          <span class="tag">EDGI</span>
+          <span class="tag">Multi-agent</span>
+          <span class="tag">Automated</span>
+        </div>
+      </div>
+      <div class="project-link">GitHub →</div>
+    </a>
+
+  </div>
+</section>
+
+<!-- BENCHMARK -->
+<section class="benchmark-section" id="benchmark">
+  <div class="section-label">Results</div>
+  <h2>RCC vs Strong<br><em>Baseline — Fair Test</em></h2>
+  <div class="benchmark-grid">
+    <div class="bench-cell">
+      <span class="bench-label">Epistemic Humility</span>
+      <div class="bench-baseline">Baseline: 0.830</div>
+      <div class="bench-rcc">0.880</div>
+      <div class="bench-delta">+0.050</div>
+      <div class="bench-win">RCC WINS</div>
+    </div>
+    <div class="bench-cell">
+      <span class="bench-label">Self Error Detection</span>
+      <div class="bench-baseline">Baseline: 0.820</div>
+      <div class="bench-rcc">0.900</div>
+      <div class="bench-delta">+0.080</div>
+      <div class="bench-win">RCC WINS</div>
+    </div>
+    <div class="bench-cell">
+      <span class="bench-label">Difficulty Calibration</span>
+      <div class="bench-baseline">Baseline: 0.931</div>
+      <div class="bench-rcc">0.935</div>
+      <div class="bench-delta">+0.004</div>
+      <div class="bench-win">TIE</div>
+    </div>
+    <div class="bench-cell">
+      <span class="bench-label">Reasoning Consistency</span>
+      <div class="bench-baseline">Baseline: 0.690</div>
+      <div class="bench-rcc">0.950</div>
+      <div class="bench-delta">+0.260</div>
+      <div class="bench-win">RCC WINS</div>
+    </div>
+    <div class="bench-cell">
+      <span class="bench-label">Strategic Withdrawal</span>
+      <div class="bench-baseline">Baseline: 0.860</div>
+      <div class="bench-rcc">0.940</div>
+      <div class="bench-delta">+0.080</div>
+      <div class="bench-win">RCC WINS</div>
+    </div>
+  </div>
+  <div style="font-family:'JetBrains Mono',monospace; font-size:0.75rem; color:#6b6560; letter-spacing:0.08em; text-align:center;">
+    Overall Delta: +0.095 · p=0.0468 · Model-agnostic · 14 models tested
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about-section" id="about">
+  <div class="about-text">
+    <div class="section-label">About</div>
+    <h2>Independent<br><em>Researcher</em></h2>
+    <p>
+      B.Tech in Information Technology. Returned to research after a decade through AI-assisted work. 
+      No formal academic affiliation — all research conducted independently from <strong>Srirangam, Trichy, Tamil Nadu</strong>.
+    </p>
+    <p>
+      Co-manager of <strong>SSVK Catering</strong>, a 40-year family business. Research happens in parallel — 
+      grounded by real work, real constraints, and a deep belief that interesting ideas don't require institutional addresses.
+    </p>
+    <p>
+      Working at the intersection of <strong>computation theory, cognitive architecture, and AI governance</strong>. 
+      Influenced by Shannon's information theory, Turing's foundational questions, and the under-recognized work of those who arrived first.
+    </p>
+    <p style="font-style: italic; color: var(--accent);">
+      Long live F. de Bessy.
+    </p>
+  </div>
+  <div class="about-aside">
+    <div class="aside-block">
+      <div class="aside-block-label">Publications</div>
+      <p>2 SSRN papers published March 2025. EDGI+MAAC-Lite and Infinity Buckets. 15+ organic downloads.</p>
+    </div>
+    <div class="aside-block">
+      <div class="aside-block-label">Patent</div>
+      <p>Provisional patent for EDGI framework filed November 2, 2025. India Patent Office.</p>
+    </div>
+    <div class="aside-block">
+      <div class="aside-block-label">Community</div>
+      <p>Engaged with bbchallenge.org community. Feedback from Shawn Ligocki on BB5 paper. arXiv endorsement from Tristan Stérin.</p>
+    </div>
+    <div class="aside-block">
+      <div class="aside-block-label">Philosophy</div>
+      <p>Drink. Think. Polish. Publish.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <div class="section-label" style="justify-content:center; margin-bottom:1rem;">Contact</div>
+  <h2>Let's <em>Connect</em></h2>
+  <p>Open to research collaborations, fellowships, and conversations about AI cognition, governance, and computation theory.</p>
+  <div class="contact-links">
+    <a href="mailto:vishnu@edgi.in" class="contact-link">vishnu@edgi.in</a>
+    <a href="https://github.com/VishnuVaidyanathan" class="contact-link" target="_blank">GitHub</a>
+    <a href="https://ssrn.com" class="contact-link" target="_blank">SSRN Papers</a>
+    <a href="https://www.kaggle.com" class="contact-link" target="_blank">Kaggle</a>
+  </div>
+</section>
+
+<footer>
+  <span>© 2025 Vishnu Vaidyanathan · edgi.in</span>
+  <span>Srirangam, Trichy, Tamil Nadu, India</span>
+  <span>RCC · EDGI · BB5 · Infinity Buckets</span>
+</footer>
+
+</body>
+</html>
